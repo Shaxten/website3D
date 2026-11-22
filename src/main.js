@@ -11,8 +11,11 @@ const io = new IntersectionObserver(
   (entries) => {
     for (const e of entries) {
       if (e.isIntersecting) {
-        e.target.classList.add('in')
-        io.unobserve(e.target)
+        const el = e.target
+        el.classList.add('in')
+        io.unobserve(el)
+        // Une fois apparu, on retire le délai pour que les effets de survol restent immédiats.
+        if (el.style.transitionDelay) setTimeout(() => (el.style.transitionDelay = ''), parseInt(el.style.transitionDelay) + 900)
       }
     }
   },

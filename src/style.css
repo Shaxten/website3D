@@ -7,11 +7,11 @@
   --line: #e3e6ec;
   --accent: #1d7fe0;
   --accent-ink: #0b5fb5;
-  --rgb: linear-gradient(90deg, #ff2d95, #ff7a00, #ffd400, #2ee66b, #19b6ff, #7b4dff);
+  --rgb: linear-gradient(90deg, #ff2d95, #ff7a00, #ffd400, #2ee66b, #19b6ff, #7b4dff, #ff2d95);
   --radius: 28px;
   --font-display: 'Space Grotesk Variable', 'Inter Variable', system-ui, sans-serif;
   --font-body: 'Inter Variable', system-ui, sans-serif;
-  --nav-h: 68px;
+  --nav-h: 0px;
 }
 
 *,
@@ -21,9 +21,13 @@
 }
 
 html {
-  scroll-behavior: smooth;
   scroll-padding-top: var(--nav-h);
   -webkit-text-size-adjust: 100%;
+}
+
+/* Pendant l'écran de chargement, la page ne défile pas. */
+html.is-loading {
+  overflow: hidden;
 }
 
 body {
@@ -91,6 +95,19 @@ a {
   height: 3px;
   border-radius: 3px;
   background: var(--rgb);
+  background-size: 200% 100%;
+  animation: rgb-flow 4s linear infinite;
+}
+
+/* Le dégradé ARGB circule en boucle, comme les liserés du boîtier. */
+@keyframes rgb-flow {
+  to {
+    background-position: -200% 0;
+  }
+}
+.rgb-flow {
+  background-size: 200% 100% !important;
+  animation: rgb-flow 6s linear infinite;
 }
 
 .title {
@@ -173,5 +190,9 @@ a {
   }
   .tilt {
     transform: none !important;
+  }
+  .eyebrow::before,
+  .rgb-flow {
+    animation: none !important;
   }
 }

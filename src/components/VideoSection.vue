@@ -1,5 +1,34 @@
 <script setup>
+import { ref, onMounted, onBeforeUnmount } from 'vue'
+
 const base = import.meta.env.BASE_URL
+const video = ref(null)
+let io = null
+let userPaused = false
+
+// La vidéo démarre en sourdine quand elle arrive à l'écran et se met en pause quand on la quitte.
+// Si le visiteur la met en pause lui-même, on ne la relance plus automatiquement.
+onMounted(() => {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  const v = video.value
+  v.addEventListener('pause', () => {
+    if (v.dataset.auto !== '1' && !v.ended) userPaused = true
+    v.dataset.auto = ''
+  })
+  io = new IntersectionObserver(
+    ([e]) => {
+      if (e.isIntersecting && !userPaused) {
+        v.play().catch(() => {})
+      } else if (!e.isIntersecting && !v.paused) {
+        v.dataset.auto = '1'
+        v.pause()
+      }
+    },
+    { threshold: 0.45 },
+  )
+  io.observe(v)
+})
+onBeforeUnmount(() => io?.disconnect())
 </script>
 
 <template>
@@ -11,7 +40,10 @@ const base = import.meta.env.BASE_URL
       </header>
       <div class="video__frame" v-reveal>
         <video
+          ref="video"
           controls
+          muted
+          loop
           playsinline
           preload="none"
           :poster="`${base}media/poster.webp`"

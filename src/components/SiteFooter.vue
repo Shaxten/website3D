@@ -1,6 +1,6 @@
 <template>
   <footer class="foot">
-    <div class="foot__rgb" aria-hidden="true"></div>
+    <div class="foot__rgb rgb-flow" aria-hidden="true"></div>
     <div class="wrap foot__inner">
       <p><b>A70 Vision White</b> · Projet de démonstration personnel</p>
       <p class="foot__legal">
@@ -14,7 +14,7 @@
 <style scoped>
 .foot {
   position: relative;
-  padding: 3.5rem 0 3rem;
+  padding: 3.5rem 0 6.5rem;
   border-top: 1px solid var(--line);
 }
 .foot__rgb {

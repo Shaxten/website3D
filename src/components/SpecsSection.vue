@@ -29,8 +29,8 @@ const specs = [
         </p>
       </header>
 
-      <dl class="specs__list" v-reveal>
-        <div v-for="[k, v] in specs" :key="k" class="specs__row">
+      <dl class="specs__list">
+        <div v-for="([k, v], i) in specs" :key="k" class="specs__row" v-reveal="{ delay: i * 45 }">
           <dt>{{ k }}</dt>
           <dd>{{ v }}</dd>
         </div>
@@ -60,10 +60,29 @@ const specs = [
   gap: 1.5rem;
   padding: 1.05rem 0.4rem;
   border-bottom: 1px solid var(--line);
-  transition: background 0.2s;
+  transition: background 0.2s, opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 .specs__row:hover {
   background: var(--surface);
+}
+/* Trait ARGB qui se dessine au survol */
+.specs__row {
+  position: relative;
+}
+.specs__row::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background: var(--rgb);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.specs__row:hover::after {
+  transform: scaleX(1);
 }
 .specs__row dt {
   color: var(--muted);
