@@ -35,8 +35,10 @@ npm run assets     # régénère public/media à partir du dossier Content/
    git remote add origin https://github.com/<utilisateur>/<depot>.git
    git push -u origin main
    ```
-3. Sur GitHub : **Settings → Pages → Build and deployment → Source : GitHub Actions**.
-4. Chaque push sur `main` déclenche le déploiement. Le site est ensuite à
+3. Sur GitHub : **Settings → Pages → Build and deployment → Source : Deploy from a branch**,
+   branche **`gh-pages`**, dossier **`/ (root)`**. Ne pas servir `main` directement : c'est le code
+   source non compilé, la page resterait blanche.
+4. Chaque push sur `main` compile le site et met à jour la branche `gh-pages`. Le site est ensuite à
    `https://<utilisateur>.github.io/<depot>/`.
 
 Les chemins sont relatifs (`base: './'`), donc le nom du dépôt n'a pas besoin d'être configuré.
